@@ -1,0 +1,19 @@
+[project]
+name = "aup3"
+version = "1.0.0"
+authors = [
+  { name="Alba Mendez", email="me@alba.sh" },
+]
+description = "Pure python parser for Audacity project files"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/mildsunrise/py-aup3"
+Issues = "https://github.com/mildsunrise/py-aup3/issues"
