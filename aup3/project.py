@@ -130,16 +130,24 @@ class SampleFormat(IntEnum):
 	INT24 = 0x40001
 	FLOAT = 0x4000F
 
+TagName = Literal[
+	'COMMENTS',
+	'GENRE',
+	'YEAR',
+	'TRACKNUMBER',
+	'ALBUM',
+	'TITLE',
+	'ARTIST',
+]
+
+@dataclass
+class Tag(BaseElement):
+	name: str
+	value: str
+
 @dataclass
 class Tags(BaseElement):
-	title: Optional[str] = None
-	artist: Optional[str] = None
-	album: Optional[str] = None
-	track: Optional[str] = None
-	year: Optional[str] = None
-	genre: Optional[str] = None
-	comments: Optional[str] = None
-	id3v2: Optional[str] = None # (0|1)
+	tags: list[Tag]
 
 @dataclass
 class Effects(BaseElement):
@@ -168,7 +176,6 @@ class LabelTrack(BaseElement):
 class ControlPoint(BaseElement):
 	t: ProjectTime
 	val: Double
-	# FIXME: test
 
 @dataclass
 class Envelope(BaseElement):
@@ -178,11 +185,16 @@ class Envelope(BaseElement):
 @dataclass
 class TimeTrack(BaseElement):
 	name: str
-	channel: int
-	offset: ProjectTime
+	isSelected: bool
+	height: int # px
+	minimized: bool
+
+	rangelower: Double # 0.2, 12
+	rangeupper: Double # 2.0, 12
+	displaylog: bool
+	interpolatelog: bool
 
 	envelope: Envelope
-	# FIXME: test
 
 @dataclass
 class WaveBlock(BaseElement):
@@ -230,8 +242,12 @@ class WaveTrack(BaseElement):
 	sampleformat: Long # SampleFormat
 	# offset: ProjectTime ?
 
-	effects: Effects
 	clips: list[WaveClip]
+	effects: Optional[Effects] = None
+
+	# for stereo tracks:
+	height1: Optional[int] = None
+	minimized1: Optional[bool] = None
 
 @dataclass
 class Project(BaseElement):
