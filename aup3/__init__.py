@@ -1,1 +1,1 @@
-from aup3 import *
+from .aup3 import *
